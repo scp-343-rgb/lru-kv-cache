@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "g++: 编译当前文件",
+      "type": "shell",
+      "command": "C:/msys64/ucrt64/bin/g++.exe",
+      "args": [
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-g",
+        "-o",
+        "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
+        "${file}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "编译当前打开的 .cpp，输出到 build/（不运行）"
+    },
+    {
+      "label": "g++: 编译并运行当前文件",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "g++: 编译当前文件"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "先编译当前文件，再运行生成的 exe"
+    },
+    {
+      "label": "clean: 删除 build 目录",
+      "type": "shell",
+      "command": "Remove-Item -Recurse -Force ${workspaceFolder}/build -ErrorAction SilentlyContinue",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "detail": "清掉编译产物"
+    }
+  ]
+}

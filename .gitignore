@@ -10,8 +10,7 @@ cmake-build-*/
 data.txt
 *.log
 
-# 编辑器 / IDE
-.vscode/
+# 编辑器 / IDE（.vscode 已入库，见 tasks.json / launch.json）
 .idea/
 *.swp
 
