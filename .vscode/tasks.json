@@ -3,7 +3,7 @@
   "tasks": [
     {
       "label": "g++: 编译当前文件",
-      "type": "shell",
+      "type": "process",
       "command": "C:/msys64/ucrt64/bin/g++.exe",
       "args": [
         "-std=c++17",
@@ -24,11 +24,11 @@
         "kind": "build",
         "isDefault": true
       },
-      "detail": "编译当前打开的 .cpp，输出到 build/（不运行）"
+      "detail": "编译当前打开的 .cpp，输出到 build/（不运行）。Ctrl+Shift+B 默认执行这个；F5 调试前也用它。type=process：直接调 g++，不经 PowerShell，避免与终端 profile 的参数冲突"
     },
     {
       "label": "g++: 编译并运行当前文件",
-      "type": "shell",
+      "type": "process",
       "command": "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -41,17 +41,23 @@
         "reveal": "always",
         "panel": "shared"
       },
-      "detail": "先编译当前文件，再运行生成的 exe"
+      "detail": "先编译当前文件，再运行生成的 exe（用 Run Task 调用）"
     },
     {
       "label": "clean: 删除 build 目录",
-      "type": "shell",
-      "command": "Remove-Item -Recurse -Force ${workspaceFolder}/build -ErrorAction SilentlyContinue",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-NoLogo",
+        "-Command",
+        "Remove-Item -LiteralPath '${workspaceFolder}\\build' -Recurse -Force -ErrorAction SilentlyContinue"
+      ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": [],
-      "detail": "清掉编译产物"
+      "detail": "清掉编译产物（-NoProfile 绕开终端 profile）"
     }
   ]
 }

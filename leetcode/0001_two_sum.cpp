@@ -1,63 +1,64 @@
-// LeetCode 1. 两数之和 (Two Sum)
-//
-// 思路：一遍哈希表（边遍历边查、边存）
-//   对每个 nums[i]，先看 target - nums[i] 是否已在表里：
-//     在  -> 命中，返回 {表里的下标, i}
-//     不在 -> 把 nums[i] -> i 存入表，继续
-//   必须先查后存，否则 [3,3], target=6 会返回 {0,0}（同一个元素用两次）。
-//
-// 复杂度：时间 O(n)，空间 O(n)。
-// 面试话术：暴力两重循环 O(n^2) -> 用哈希表把"找补数"从 O(n) 降到 O(1)。
-
-#include <cassert>
-#include <iostream>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
 class Solution {
 public:
-    std::vector<int> twoSum(const std::vector<int>& nums, int target) {
-        std::unordered_map<int, int> seen;  // value -> index
-        for (int i = 0; i < static_cast<int>(nums.size()); ++i) {
-            auto it = seen.find(target - nums[i]);
-            if (it != seen.end()) {
-                return {it->second, i};
+    vector<int> twoSum(vector<int>& nums, int target) {
+        for (size_t i = 0;i < nums.size();i++) {
+            int complement = target - nums[i];
+            for (size_t j = i + 1;j < nums.size();j++) {
+                if (nums[j] == complement) {
+                    return{ i,j };
+                }
             }
-            seen[nums[i]] = i;
         }
-        return {};
+        return{};
     }
 };
-
-namespace {
-
-void checkCase(const std::vector<int>& nums, int target, int want_a, int want_b,
-               const std::string& name) {
-    Solution sol;
-    std::vector<int> got = sol.twoSum(nums, target);
-    assert(got.size() == 2);
-
-    // 顺序无关（题目允许任意顺序），并且两个下标不能相同
-    bool ok = (got[0] != got[1]) &&
-              ((got[0] == want_a && got[1] == want_b) ||
-               (got[0] == want_b && got[1] == want_a));
-    assert(ok);
-
-    // 顺手验证答案确实成立
-    assert(nums[got[0]] + nums[got[1]] == target);
-
-    std::cout << "[PASS] " << name << " -> [" << got[0] << ", " << got[1] << "]\n";
+bool twoSum(int nums[], int len, int target, int* out_i, int* out_j)
+{
+    bool found = false;
+    for (int i = 0;i < len;i++) {
+        int complement = target - nums[i];
+        for (int j = i + 1;j < len;j++) {
+            if (nums[j] == complement) {
+                *out_i = i;
+                *out_j = j;
+                found = true;
+                break;
+            }
+        }
+        if (found)break;
+    }
+    return found;
 }
-
-}  // namespace
-
-int main() {
-    checkCase({2, 7, 11, 15}, 9, 0, 1, "示例 1");
-    checkCase({3, 2, 4}, 6, 1, 2, "示例 2：补数在后");
-    checkCase({3, 3}, 6, 0, 1, "示例 3：重复值必须用两个不同元素");
-    checkCase({-3, 4, 3, 90}, 0, 0, 2, "负数 + 补数为 0");
-
-    std::cout << "全部用例通过\n";
+void runCase(int nums[], int len, int target, int exp_i, int exp_j, const string& name)
+{
+    vector<int> v;
+    for (int k = 0; k < len; k++) v.push_back(nums[k]);
+    vector<int> ans = Solution().twoSum(v, target);
+    if (ans.size() == 0) {
+        if (exp_i == -1) cout << name << " PASS " << endl;
+        else cout << name << " FAIL got none expect[" << exp_i << "," << exp_j << "]" << endl;
+    }
+    else {
+        if (ans[0] == exp_i && ans[1] == exp_j)cout << name << " PASS" << endl;
+        else cout << name << " FAIL got " << ans[0] << "," << ans[1] <<
+            " expect  [" << exp_i << "," << exp_j << "]" << endl;
+    }
+}
+int main()
+{
+    int nums1[4] = { 2, 7, 11, 15 };
+    runCase(nums1, sizeof(nums1) / sizeof(nums1[0]), 9, 0, 1, "case1 { 2, 7, 11, 15 }/9");
+    int nums2[3] = { 3, 2, 4 };
+    runCase(nums2, sizeof(nums2) / sizeof(nums2[0]), 6, 1, 2, "case2{ 3, 2, 4 }/6");
+    int nums3[2] = { 3, 3 };
+    runCase(nums3, sizeof(nums3) / sizeof(nums3[0]), 6, 0, 1, "case3{3,3}/6");
+    int nums4[4] = { -3, 4, 3, 90 };
+    runCase(nums4, sizeof(nums4) / sizeof(nums4[0]), 0, 0, 2, "case4{ -3, 4, 3, 90 }/0");
+    int nums5[3] = { 1,2,3 };
+    runCase(nums5, sizeof(nums5) / sizeof(nums5[0]), 100, -1, -1, "case5{1,2,3}/100");
     return 0;
 }
