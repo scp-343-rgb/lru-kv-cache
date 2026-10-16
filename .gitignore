@@ -1,0 +1,20 @@
+# 构建产物
+build/
+cmake-build-*/
+*.o
+*.obj
+*.exe
+*.out
+
+# 持久化数据文件（测试产物，不入库）
+data.txt
+*.log
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+
+# 系统
+.DS_Store
+Thumbs.db
