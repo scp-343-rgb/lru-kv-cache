@@ -34,7 +34,7 @@
 ### 启动周末（10/16–10/18）
 
 - [x] 查校历 → 已填：2027-01-11（暂定，待校历确认）
-- [ ] GitHub 建远程仓库 + push
+- [x] GitHub 建远程仓库 + push —— https://github.com/scp-343-rgb/lru-kv-cache（首次 push 已完成，分支 main 已跟踪 origin/main）
 - [x] 自己做掉 `1. 两数之和`（已提交 AC：暴力 O(n²) + 5 组本地用例；哈希 O(n) 版记在 `docs/leetcode-errors.md`）
 - [ ] 写下 `Node` 结构体（为 W1 开头，不用实现方法）
 
