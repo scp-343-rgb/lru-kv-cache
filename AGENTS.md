@@ -428,3 +428,79 @@ XXX | 北京XX大学 · 计算机科学与技术 · 大二 | 电话 | 邮箱 | G
 - **考试周第一天 = 2027-01-11（周一，暂定）**。已同步进 `PLAN.md` §1 / `docs/progress.md` / `docs/plan-handoff.md`，
   计划的 W9–W14 已按它 **+7 天整体平移**（锚点 2 的投递周不动）。
   若我在校历上查到的真实日期与它 **差 ≥ 3 天**：按同样的整体平移规则再调一次，其余不迭代。
+
+---
+
+## 5. 八股索引表（W1–W6 · 直接在 GitHub 上读）
+
+**主源**：[huihut/interview 的 README](https://github.com/huihut/interview/blob/master/README.md)
+（单文件 3468 行，**不要从头往下滚**；按行号链接或页面右上角 Outline 跳到当天小节）
+
+**每天 40–60 min 的节奏**：读 30 min（只读当天一节，不抄）→ 合上口述 1 分钟版 → 最后 10 min 在对话里让 Codex 追问，讲不顺的当场重讲。
+
+**规则**
+
+- **不新建笔记文件**：卡点直接口述给 Codex，由它按你的话追问；周日抽 3 题验收
+- 只读「本周」那几行，**不提前读后面的周**
+- 问「今天八股读哪」时，Codex 只回当天那一行（不发全表）
+- 行号按 2026-10-19 的 master 版本；仓库更新会让行号漂移，对不上就以标题名为准
+- 表里的链接带 `?plain=1`，打开是**带行号的原文件视图**，直接定位到那几行；想读渲染版就去掉 `?plain=1`
+
+| 周 | 要能讲的主题 | 读哪一节 | 说明 |
+| --- | --- | --- | --- |
+| W1 | 指针 vs 引用 | ❌ 本文没有这一节 | 不买书：Codex 讲 10 min + 用 g++ 做 3 个实验（改绑 / sizeof / 取地址），讲回给 Codex 挑漏 |
+| W1 | new/delete vs malloc/free | [L975–L1036](https://github.com/huihut/interview/blob/master/README.md?plain=1#L975-L1036) | 含「定位 new」，可跳 |
+| W1 | const（修饰变量 / 指针 / 成员函数） | [L55–L134](https://github.com/huihut/interview/blob/master/README.md?plain=1#L55-L134) | 含 `const 的指针与引用` |
+| W1 | 栈 vs 堆 | [L2736–L2760](https://github.com/huihut/interview/blob/master/README.md?plain=1#L2736-L2760) | 在「链接装载库」章后半，不在开头 |
+| W2 | 构造 / 析构 / 拷贝构造 / 拷贝赋值、深浅拷贝 | ❌ 本文没有这一节（全文「拷贝构造」出现 0 次） | Codex 讲 + cppreference「拷贝构造函数 / 拷贝赋值运算符」页（浏览器打开），再拿自己写的 Node 做深浅拷贝对比 |
+| W2 | RAII | ❌ 无独立小节 | Codex 讲 + 拿自己写的 `Node` / 链表举例，对照 unique_ptr 的析构顺序 |
+| W3 | 多态 | [L811–L885](https://github.com/huihut/interview/blob/master/README.md?plain=1#L811-L885) | |
+| W3 | 为什么基类析构要 virtual | [L886–L915](https://github.com/huihut/interview/blob/master/README.md?plain=1#L886-L915) | 虚析构函数 |
+| W3 | 虚表 | [L934–L940](https://github.com/huihut/interview/blob/master/README.md?plain=1#L934-L940) | 配 [L924 虚函数、纯虚函数](https://github.com/huihut/interview/blob/master/README.md?plain=1#L924) 一起读 |
+| W4 | 智能指针三种 / shared_ptr 引用计数 / weak_ptr 循环引用 | [L1048–L1096](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1048-L1096) | |
+| W5 | vector / list / deque 底层 | [L1439 顺序表](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1439)、[L1480 单链表](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1480)、[L1486 双向链表](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1486) | 本文没有 deque，用「分段连续空间 + 中控数组」一句话讲 |
+| W5 | map vs unordered_map | [L1498 哈希表](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1498)、[L1709 红黑树](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1709) | 哈希表只读「概念 / 冲突处理方法」，线性探测的代码段跳过 |
+| W6 | 右值引用 / 移动语义 / 完美转发 | [L700–L719 引用](https://github.com/huihut/interview/blob/master/README.md?plain=1#L700-L719) | 只有左值引用 / 右值引用 / 引用折叠三段，很薄，讲不清就让 Codex 追问 |
+| W6 | 进程 vs 线程 | [L1869–L1988](https://github.com/huihut/interview/blob/master/README.md?plain=1#L1869-L1988) | |
+
+**W7–W9 不在本表**：主源换成 [小林 coding](https://www.xiaolincoding.com)（网站，不是 GitHub），到那周再给索引。
+---
+
+## 6. 刷题收尾协议（每次刷完一题就执行）
+
+**触发**：每刷完一题 —— AC、TLE、不会做、看答案都算 —— Codex 要主动说一句「补 `docs/leetcode-errors.md` 一行」，不等用户想起来。
+
+**分工（不可越界）**
+
+- **用户写**：卡在哪 + 一句话思路，两栏都是自己的话
+- **Codex 不代写**：最多指出「这栏缺了什么」「这不是卡点、是结论」，不提供成句供你照抄
+- **Codex 核对**：① 卡点是否具体到能复现（周日二刷时能想起当时怎么错的）② 思路是否讲得出来 ③ 是否只写一行
+
+**记什么**
+
+- 卡壳 / 写错 / 看答案 → 必须写
+- 一次 AC 且全程没卡 → 也写一行，卡点栏写「一次 AC」，思路栏仍要一句话（周日可按需挑着二刷）
+- 格式：`| 题号 | 卡在哪 | 一句话思路 |`，竖线两侧留空格；不抄题解、不贴代码
+
+**周日收尾时**：Codex 按本周做过的题逐题核对，缺行的当场补，不只对 git log。
+---
+
+## 7. 交办要求一次给全（不许挤牙膏）
+
+**触发**：凡是让用户动笔或动手的活 —— 错题本一行、代码结构、注释、文档、commit 拆分、实验步骤。
+
+**Codex 第一次就要给全这五样，不能等用户交上来再逐条挑**
+
+1. **目标物**：哪个文件、哪个类 / 函数 / 表格栏
+2. **完整格式**：字段、列名、必须包含的信息点（例：错题本「卡点」栏要写到能复现，「思路」栏要能讲出三步）
+3. **合格判据**：什么样算过（零警告 / 输出正确 / 能空手画图 / 能脱稿讲）
+4. **验收会问什么**：交上来时 Codex 会拿哪几个问题检查，提前列出来
+5. **顺序与前置决定**：先做什么后做什么，哪些必须先拍板（例：先定哑节点还是空 head，再写三个函数）
+
+**禁止的做法**
+
+- 先给模糊要求 → 用户交 → Codex 逐条挑毛病 → 用户改 → 再挑
+- 每次只补一条新要求，让用户往返修改
+- 事后追加格式要求（空格、术语、栏位）却没在第一次说清
+
+**新要求出现时**：一次说明「要改哪几处、改完是否就通过」，不留下一次往返。
