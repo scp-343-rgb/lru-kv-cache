@@ -1,0 +1,7 @@
+{
+  "code-runner.executorMap": {
+    "cpp": "powershell.exe -NoProfile -NoLogo -ExecutionPolicy Bypass -File \"$workspaceRoot\\run-active.ps1\" -File \"$fullFileName\""
+  },
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.runInTerminal": true
+}
