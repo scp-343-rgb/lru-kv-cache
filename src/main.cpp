@@ -1,36 +1,35 @@
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "list.h"
 using namespace std;
 int main() {
-    List l;
-    Node* a = new Node("a", "1");
-    Node* b = new Node("b", "2");
-    Node* c = new Node("c", "3");
-    cout << "当前链表是否为空表" << l.empty() << endl;
-    cout << "当前链表的大小为" << l.size() << endl;
-    l.addToHead(c);
-    l.addToHead(a);
-    l.addToHead(b);
-    for (Node* p = l.front();p != l.end();p = p->next()) {
-        cout << p->key() << endl;
+    string line;
+    while (getline(cin, line)) {
+        string cmd, tokens, key, value;
+        int cnt = 0;
+        istringstream iss(line);
+        while (iss >> tokens) {
+            if (cnt == 0) cmd = tokens;
+            else if (cnt == 1) key = tokens;
+            else if (cnt == 2) value = tokens;
+            cnt++;
+        }
+        if (cmd == "put" && cnt == 3) {
+            cout << "PUT " << key << "=" << value << endl;
+        }
+        else if (cmd == "get" && cnt == 2) {
+            cout << "GET " << key << endl;
+        }
+        else if (cmd == "exit" && cnt == 1) {
+            return 0;
+        }
+        else if (cnt == 0) {
+
+        }
+        else {
+            cout << "ERR invalid command" << endl;
+        }
     }
-    l.removeNode(b);
-    delete b;
-    for (Node* p = l.front();p != l.end();p = p->next()) {
-        cout << p->key() << endl;
-    }
-    cout << "当前链表的大小为" << l.size() << endl;
-    l.moveToHead(c);
-    for (Node* p = l.front();p != l.end();p = p->next()) {
-        cout << p->key() << endl;
-    }
-    cout << "当前链表的大小为" << l.size() << endl;
-    while (!l.empty())
-    {
-        Node* p = l.front();
-        l.removeNode(p);
-        delete p;
-    }
-    cout << l.empty() << " " << l.size() << endl;
     return 0;
 }
