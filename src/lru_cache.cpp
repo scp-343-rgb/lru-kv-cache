@@ -17,6 +17,13 @@ void LRUCache::put(const std::string& key, const std::string& value)
         list_.moveToHead(it->second);
     }
     else {
+        while (list_.size() >= capacity_)
+        {
+            Node* node = list_.back();
+            index_.erase(node->key());
+            list_.removeNode(node);
+            delete node;
+        }
         Node* node = new Node(key, value);
         list_.addToHead(node);
         index_.emplace(key, node);
