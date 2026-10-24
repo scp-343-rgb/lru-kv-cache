@@ -43,6 +43,8 @@ public:
         delete head;
         delete tail;
     }
+    List(const List&) = delete;
+    List& operator=(const List&) = delete;
     int size()const {
         return size_;
     }

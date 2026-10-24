@@ -11,6 +11,8 @@ public:
     explicit LRUCache(int c) :capacity_(c) {
         if (capacity_ <= 0) throw std::invalid_argument("容量必须大于零");
     }
+    LRUCache(const LRUCache&) = delete;
+    LRUCache& operator=(const LRUCache&) = delete;
     bool get(const std::string& key, std::string& value);
     void put(const std::string& key, const std::string& value);
 };
