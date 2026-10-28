@@ -322,7 +322,7 @@ XXX | 北京XX大学 · 计算机科学与技术 · 大二 | 电话 | 邮箱 | G
 
 ## 3. 仓库约定
 
-- `leetcode/` 命名：`四位题号_英文名.cpp`，例如 `0001_two_sum.cpp`；自己写，含 `main` 里的本地用例
+- `leetcode/` 命名：`四位题号_英文名.cpp`，例如 `0001_two_sum.cpp`；自己写。若已在 LeetCode AC，不再强制要求本地 `main` 或本地用例
 - `src/` 项目源码，第 2 周起；每周至少一个有意义的小 commit，别把一周的活塞进一个 commit
 - `tests/` 测试，`docs/` 设计与 benchmark 数据
 - `reference/` 存放参考答案（含 agent 提供的），**不算我的产出，不写进简历**
