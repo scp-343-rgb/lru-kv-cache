@@ -22,7 +22,7 @@ int main() {
     bool okc = restored.get("c", value);
     cout << "c : " << okc << endl;
     cout << "c.value= " << value << endl;
-    restored.put("d", "4");*/
+    restored.put("d", "4");
     LRUCache order(2);
     order.loadFile("build/manual_persistence.txt");
     order.put("d", "4");
@@ -31,12 +31,11 @@ int main() {
     cout << "a.value= " << value << endl;
     bool okc_1 = order.get("c", value);
     cout << "c : " << okc_1 << endl;
-    cout << "c.value= " << value << endl;
-    order.put("", "1");
-    order.loadFile("build/manual_persistence.txt");
-    order.put("f", "");
-    order.loadFile("build/manual_persistence.txt");
-    order.put("", "");
-    order.loadFile("build/manual_persistence.txt");
+    cout << "c.value= " << value << endl;*/
+    LRUCache test(2);
+    bool t = test.loadFile("build/load_invalid.txt");
+    cout << test.get("c", value) << " " << value << endl;
+    cout << test.get("a", value) << " " << value << endl;
+    cout << "load result: " << t << endl;
     return 0;
 }
