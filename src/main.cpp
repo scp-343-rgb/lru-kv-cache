@@ -36,6 +36,22 @@ int main(int argc, char* argv[]) {
                     cout << "NOT_FOUND" << endl;
                 }
             }
+            else if (cmd == "save" && cnt == 2) {
+                if (cache.dumpFile(key)) {
+                    cout << "OK" << endl;
+                }
+                else {
+                    cout << "ERR save" << endl;
+                }
+            }
+            else if (cmd == "load" && cnt == 2) {
+                if (cache.loadFile(key)) {
+                    cout << "OK" << endl;
+                }
+                else {
+                    cout << "ERR load" << endl;
+                }
+            }
             else if (cmd == "exit" && cnt == 1) {
                 return 0;
             }
