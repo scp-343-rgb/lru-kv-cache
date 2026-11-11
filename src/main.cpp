@@ -4,7 +4,9 @@
 #include <stdexcept>
 #include "list.h"
 #include "lru_cache.h"
+#include "thread_safe.h"
 using namespace std;
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         cout << "参数数量错误" << endl;
@@ -12,7 +14,7 @@ int main(int argc, char* argv[]) {
     }
     try {
         int capacity = stoi(argv[1]);
-        LRUCache cache(capacity);
+        ThreadSafeLRUCache cache(capacity);
         string line;
         while (getline(cin, line)) {
             string cmd, tokens, key, value;

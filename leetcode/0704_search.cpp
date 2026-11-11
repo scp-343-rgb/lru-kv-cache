@@ -1,0 +1,12 @@
+#include <vector>
+using namespace std;
+int search(vector<int>& nums, int target) {
+    int left = -1, right = nums.size();
+    while (left + 1 != right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target) left = mid;
+        else if (nums[mid] > target) right = mid;
+        else return mid;
+    }
+    return -1;
+}
