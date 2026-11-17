@@ -68,11 +68,20 @@ vector<Operation> makeWorkLoad(int seed, int operations, int putpercent, int key
     return v;
 }
 
+void printResult(int capacity,const BenchmarkResult& result)
+{
+    cout << "capacity= " << capacity << " gets= " << result.gets
+        << " hits= " << result.hits << " misses= " << result.misses
+        << " hitRate= " << result.hitRate << " " << endl;
+}
+
 int main() {
-    int kseed = 20261116, koperations = 10000, kkeyspace = 1000, kputpercent = 20, kcapacity = 10;
+    int kseed = 20261116, koperations = 100000, kkeyspace = 10000, kputpercent = 20;
+    vector <int> capacities = { 10,100,1000,10000 };
     vector<Operation>v = makeWorkLoad(kseed, koperations, kputpercent, kkeyspace);
-    BenchmarkResult result = runLRU(kcapacity, v);
-    cout << "capacity= " << kcapacity << " " << result.gets << " " << result.hits << " " << result.misses
-        << " " << result.hitRate << " " << endl;
+    for (auto i : capacities) {
+        BenchmarkResult result = runLRU(i, v);
+        printResult(i, result);
+    }
     return 0;
 }
