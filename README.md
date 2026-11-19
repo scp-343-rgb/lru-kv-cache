@@ -13,7 +13,7 @@
 - 持久化容错：加载时跳过空行、缺少字段、字段过多等非法记录
 - 并发访问：使用单一全局 `std::mutex` 保护缓存和链表操作
 - 交互式 CLI：支持 `put`、`get`、`save`、`load`、`exit`
-- Benchmark：固定随机种子生成 workload，统计不同容量下的缓存命中率
+- Benchmark：固定随机种子生成 workload，对照 LRU 与 FIFO 在不同容量下的缓存命中率
 
 ## 数据结构
 
@@ -107,21 +107,21 @@ exit
 - 操作数：100000
 - key 空间：10000
 - put 比例：20%
-- 淘汰策略：LRU
+- 淘汰策略：LRU / FIFO
 
-| 容量 | gets | hits | misses | 命中率 |
-| ---: | ---: | ---: | ---: | ---: |
-| 10 | 80064 | 92 | 79972 | 0.114908% |
-| 100 | 80064 | 820 | 79244 | 1.02418% |
-| 1000 | 80064 | 7806 | 72258 | 9.7497% |
-| 10000 | 80064 | 45350 | 34714 | 56.6422% |
+| 容量 | LRU 命中率 | FIFO 命中率 |
+| ---: | ---: | ---: |
+| 10 | 0.114908% | 0.114908% |
+| 100 | 1.02418% | 1.02168% |
+| 1000 | 9.7497% | 9.76344% |
+| 10000 | 56.6422% | 56.6422% |
 
-两轮运行结果一致，所有结果均满足 `hits + misses == gets`。完整记录见 [`docs/benchmark.md`](docs/benchmark.md)。
+两轮运行结果一致，所有结果均满足 `hits + misses == gets`。当前 workload 为均匀随机访问，不能据此证明 LRU 优于 FIFO；完整配置和逐项数据见 [`docs/benchmark.md`](docs/benchmark.md)。
 
 编译并运行 benchmark：
 
 ```powershell
-C:/msys64/ucrt64/bin/g++.exe -std=c++17 -Wall -Wextra -O2 -I src src/list.cpp src/lru_cache.cpp tests/benchmark.cpp -o build/benchmark.exe
+C:/msys64/ucrt64/bin/g++.exe -std=c++17 -Wall -Wextra -O2 -I src src/list.cpp src/lru_cache.cpp src/Fifo_cache.cpp tests/benchmark.cpp -o build/benchmark.exe
 .\build\benchmark.exe
 ```
 
@@ -148,6 +148,7 @@ C:/msys64/ucrt64/bin/g++.exe -std=c++17 -Wall -Wextra -O2 -I src src/list.cpp sr
 src/
   list.h / list.cpp              双向链表
   lru_cache.h / lru_cache.cpp    LRU 缓存核心逻辑
+  Fifo_cache.h / Fifo_cache.cpp  FIFO benchmark 对照组
   persistence.cpp                文件保存与加载
   thread_safe.h / thread_safe.cpp
   main.cpp                       交互式 CLI
@@ -171,6 +172,6 @@ docs/
 ## 后续方向
 
 - 按哈希分桶实现分段锁，降低不同 key 之间的锁竞争
-- 增加 LRU / FIFO / 随机淘汰的同 workload 对比
+- 增加随机淘汰对照，并加入热点访问等更接近真实业务的 workload
 - 为持久化增加原子写入和恢复校验
 - 增加更接近热点访问、周期性扫描等场景的 benchmark

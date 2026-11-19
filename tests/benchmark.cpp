@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "lru_cache.h"
+#include "Fifo_cache.h"
 using namespace std;
 
 enum class OperationType { get, put };
@@ -26,6 +27,25 @@ BenchmarkResult runLRU(int capacity, const vector<Operation>& workload)
 {
     BenchmarkResult result;
     LRUCache cache(capacity);
+    for (auto& i : workload) {
+        if (i.type == OperationType::get) {
+            result.gets++;
+            string temp = i.value;
+            if (cache.get(i.key, temp)) result.hits++;
+            else result.misses++;
+        }
+        else {
+            cache.put(i.key, i.value);
+        }
+    }
+    if (result.gets != 0) result.hitRate = static_cast<double>(result.hits) / result.gets;
+    return result;
+}
+
+BenchmarkResult runFIFO(int capacity, const vector<Operation>& workload)
+{
+    BenchmarkResult result;
+    FIFOCache cache(capacity);
     for (auto& i : workload) {
         if (i.type == OperationType::get) {
             result.gets++;
@@ -80,8 +100,12 @@ int main() {
     vector <int> capacities = { 10,100,1000,10000 };
     vector<Operation>v = makeWorkLoad(kseed, koperations, kputpercent, kkeyspace);
     for (auto i : capacities) {
-        BenchmarkResult result = runLRU(i, v);
-        printResult(i, result);
+        BenchmarkResult result1 = runLRU(i, v);
+        BenchmarkResult result2 = runFIFO(i, v);
+        cout << "LRU: ";
+        printResult(i, result1);
+        cout << "FIFO: ";
+        printResult(i, result2);
     }
     return 0;
 }
