@@ -4,6 +4,7 @@
 #include <vector>
 #include "lru_cache.h"
 #include "Fifo_cache.h"
+#include "Random_cache.h"
 using namespace std;
 
 enum class OperationType { get, put };
@@ -61,6 +62,25 @@ BenchmarkResult runFIFO(int capacity, const vector<Operation>& workload)
     return result;
 }
 
+BenchmarkResult runRandom(int capacity, const vector<Operation>& workload)
+{
+    BenchmarkResult result;
+    RandomCache cache(capacity);
+    for (auto& i : workload) {
+        if (i.type == OperationType::get) {
+            result.gets++;
+            string temp = i.value;
+            if (cache.get(i.key, temp)) result.hits++;
+            else result.misses++;
+        }
+        else {
+            cache.put(i.key, i.value);
+        }
+    }
+    if (result.gets != 0) result.hitRate = static_cast<double>(result.hits) / result.gets;
+    return result;
+}
+
 vector<Operation> makeWorkLoad(int seed, int operations, int putpercent, int keyspace)
 {
     vector<Operation> v;
@@ -102,10 +122,13 @@ int main() {
     for (auto i : capacities) {
         BenchmarkResult result1 = runLRU(i, v);
         BenchmarkResult result2 = runFIFO(i, v);
+        BenchmarkResult result3 = runRandom(i, v);
         cout << "LRU: ";
         printResult(i, result1);
         cout << "FIFO: ";
         printResult(i, result2);
+        cout << "Random: ";
+        printResult(i, result3);
     }
     return 0;
 }
